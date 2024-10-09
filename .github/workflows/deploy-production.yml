@@ -46,4 +46,4 @@ jobs:
       - name: Call VPS webhook to update production
         uses: wei/curl@master
         with:
-          args: https://ops.greenfoot.cavanais.fr/hooks/update-production
+          args: https://ops.cavanais.fr/hooks/update-production
