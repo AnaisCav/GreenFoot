@@ -7,35 +7,35 @@ on:
 
 jobs:
   test-client:
-    uses: WildCodeSchool/2023-11-wns-bleu-g3/.github/workflows/tests-front.yml@main
+    uses: AnaisCav/GreenFoot/.github/workflows/tests-front.yml@main
 
   e2e-tests:
-    uses: WildCodeSchool/2023-11-wns-bleu-g3/.github/workflows/e2e.yml@main
+    uses: AnaisCav/GreenFoot/.github/workflows/e2e.yml@main
 
   integration-tests:
-    uses: WildCodeSchool/2023-11-wns-bleu-g3/.github/workflows/integration-tests.yml@main
+    uses: AnaisCav/GreenFoot/.github/workflows/integration-tests.yml@main
 
   build-and-push-server:
     needs:
       - integration-tests
       - e2e-tests
-    uses: WildCodeSchool/2023-11-wns-bleu-g3/.github/workflows/build-backend.yml@main
+    uses: AnaisCav/GreenFoot/.github/workflows/build-backend.yml@main
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
-      image_name: greenfoot/greenfoot-back
+      image_name: anaiscav/greenfoot-back
 
   build-and-push-client:
     needs:
       - test-client
       - e2e-tests
-    uses: WildCodeSchool/2023-11-wns-bleu-g3/.github/workflows/build-frontend.yml@main
+    uses: AnaisCav/GreenFoot/.github/workflows/build-frontend.yml@main
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
-      image_name: greenfoot/greenfoot-front
+      image_name: anaiscav/greenfoot-front
 
   notify-vps:
     needs:
@@ -46,4 +46,4 @@ jobs:
       - name: Call VPS webhook to update production
         uses: wei/curl@master
         with:
-          args: https://ops.1123-bleu-3.wns.wilders.dev/hooks/update-production
+          args: https://ops.greenfoot.cavanais.fr/hooks/update-production
